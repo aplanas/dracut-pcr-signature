@@ -22,7 +22,7 @@ Release:        0
 Summary:        Dracut module to import PCR signatures
 License:        GPL-2.0-or-later
 URL:            https://github.com/aplanas/dracut-pcr-signature
-Source:         %{name}-%{version}.tar
+Source:         %{name}-%{version}.tar.xz
 Requires:       dracut
 BuildArch:      noarch
 
