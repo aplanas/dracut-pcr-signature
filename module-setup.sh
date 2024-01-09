@@ -12,8 +12,8 @@ depends() {
 
 installkernel() {
     inst_multiple grep rmdir
-    # Codepages required to mount the ESP (vfat)
-    hostonly="" instmods nls_cp437 nls_iso8859-1
+    # Filesystem (vfat) and codepages required to mount the ESP
+    hostonly="" instmods vfat nls_cp437 nls_iso8859-1
 }
 
 install() {
