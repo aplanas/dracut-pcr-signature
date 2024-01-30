@@ -1,6 +1,7 @@
 #!/bin/bash
 
 MNT="/tmp/pcr-signature"
+# Maybe a better place is loader/credentials
 SYSTEMD="EFI/systemd"
 VENDOR="4a67b082-0a4c-41cf-b6c7-440b29bb8c4f"
 EFIVAR="/sys/firmware/efi/efivars/LoaderDevicePartUUID-$VENDOR"
@@ -40,10 +41,15 @@ mkdir -p "$MNT"
 
 mount_esp
 
-if is_mount "$MNT" && [ -e "${MNT}/${SYSTEMD}/tpm2-pcr-signature.json" ] && [ -e "${MNT}/${SYSTEMD}/tpm2-pcr-public-key.pem" ]; then
-    mkdir -p /etc/systemd
-    cp "${MNT}/${SYSTEMD}/tpm2-pcr-signature.json" /etc/systemd
-    cp "${MNT}/${SYSTEMD}/tpm2-pcr-public-key.pem" /etc/systemd
+if is_mount "$MNT"; then
+    if [ -e "${MNT}/${SYSTEMD}/pcrlock.json" ]; then
+	mkdir -p /var/lib/systemd
+	cp "${MNT}/${SYSTEMD}/pcrlock.json" /var/lib/systemd
+    elif [ -e "${MNT}/${SYSTEMD}/tpm2-pcr-signature.json" ] && [ -e "${MNT}/${SYSTEMD}/tpm2-pcr-public-key.pem" ]; then
+	mkdir -p /etc/systemd
+	cp "${MNT}/${SYSTEMD}/tpm2-pcr-signature.json" /etc/systemd
+	cp "${MNT}/${SYSTEMD}/tpm2-pcr-public-key.pem" /etc/systemd
+    fi
 fi
 
 is_mount "$MNT" && umount "$MNT"
