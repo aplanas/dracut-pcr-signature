@@ -11,7 +11,7 @@ depends() {
 }
 
 installkernel() {
-    inst_multiple grep rmdir
+    inst_multiple mountpoint rmdir dd tr
     # Filesystem (vfat) and codepages required to mount the ESP
     hostonly="" instmods vfat nls_cp437 nls_iso8859-1
 }
@@ -22,8 +22,8 @@ install() {
     # easy execute the service when the ESP device is ready and the
     # systemd-cryptsetup service was still not executed
     # (cryptsetup.target).  One solution is to use a generator, that
-    # will after/requires from dev-disk-bytpartuuid-XXX, where XXX
+    # will after/requires from dev-disk-by-partuuid-XXX, where XXX
     # comes from LoaderDevicePartUUID efivar.  The other option is an
-    # override (this one)
+    # override (this one).
     inst_simple "${moddir}/pcr-signature.conf" "/etc/systemd/system/systemd-cryptsetup@.service.d/pcr-signature.conf"
 }
