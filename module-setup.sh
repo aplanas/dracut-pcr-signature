@@ -11,7 +11,7 @@ depends() {
 }
 
 installkernel() {
-    inst_multiple mountpoint rmdir dd tr
+    inst_multiple mountpoint rmdir dd tr mktemp
     # Filesystem (vfat) and codepages required to mount the ESP
     hostonly="" instmods vfat nls_cp437 nls_iso8859-1
 }
