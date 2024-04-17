@@ -25,6 +25,7 @@ URL:            https://github.com/aplanas/dracut-pcr-signature
 Source:         %{name}-%{version}.tar.xz
 Requires:       dracut
 BuildArch:      noarch
+Conflicts:      grub2
 
 %description
 Dracut module to import PCR signatures.  This will make possible the
