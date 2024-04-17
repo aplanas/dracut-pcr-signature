@@ -11,8 +11,8 @@ if [ -e "/var/lib/systemd/pcrlock.json" ] || [ -e "/etc/systemd/tpm2-pcr-signatu
     exit 0
 fi
 
-# Read the value of the EFI variable, that contains a header and
-# ends with '\0' and make it lowercase
+# Read the value of the EFI variable, that contains a header and ends
+# with '\0' and make it lowercase
 ESP_UUID="$(dd "if=$EFIVAR" bs=2 skip=2 conv=lcase status=none | tr -d '\0')"
 DEV="/dev/disk/by-partuuid/${ESP_UUID}"
 MNT="$(mktemp -d)"
