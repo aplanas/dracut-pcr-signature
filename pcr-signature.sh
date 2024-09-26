@@ -6,11 +6,6 @@ EFIVAR="/sys/firmware/efi/efivars/LoaderDevicePartUUID-4a67b082-0a4c-41cf-b6c7-4
 
 [ -e "$EFIVAR" ] || exit 0
 
-if [ -e "/var/lib/systemd/pcrlock.json" ] || [ -e "/etc/systemd/tpm2-pcr-signature.json" ]; then
-    echo "pcr-signature: signature file already present"
-    exit 0
-fi
-
 # Read the value of the EFI variable, that contains a header and ends
 # with '\0' and make it lowercase
 ESP_UUID="$(dd "if=$EFIVAR" bs=2 skip=2 conv=lcase status=none | tr -d '\0')"
@@ -36,13 +31,13 @@ mount -o ro "$DEV" "$MNT" || {
 
 for location in "${MNT}/EFI/systemd" "${MNT}/EFI/opensuse"; do
     if [ -e "${location}/pcrlock.json" ]; then
-	mkdir -p /var/lib/systemd
-	cp "${location}/pcrlock.json" /var/lib/systemd
+	mkdir -p /run/systemd
+	cp "${location}/pcrlock.json" /run/systemd
 	break
     elif [ -e "${location}/tpm2-pcr-signature.json" ] && [ -e "${location}/tpm2-pcr-public-key.pem" ]; then
-	mkdir -p /etc/systemd
-	cp "${location}/tpm2-pcr-signature.json" /etc/systemd
-	cp "${location}/tpm2-pcr-public-key.pem" /etc/systemd
+	mkdir -p /run/systemd
+	cp "${location}/tpm2-pcr-signature.json" /run/systemd
+	cp "${location}/tpm2-pcr-public-key.pem" /run/systemd
 	break
     fi
 done
