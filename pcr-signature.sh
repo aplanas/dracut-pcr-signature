@@ -6,6 +6,12 @@ EFIVAR="/sys/firmware/efi/efivars/LoaderDevicePartUUID-4a67b082-0a4c-41cf-b6c7-4
 
 [ -e "$EFIVAR" ] || exit 0
 
+# Avoid race condition when multiple disks are encrypted
+if [ -e "/run/systemd/pcrlock.json" ] || [ -e "/run/systemd/tpm2-pcr-signature.json" ]; then
+    echo "pcr-signature: signature file already present"
+    exit 0
+fi
+
 # Read the value of the EFI variable, that contains a header and ends
 # with '\0' and make it lowercase
 ESP_UUID="$(dd "if=$EFIVAR" bs=2 skip=2 conv=lcase status=none | tr -d '\0')"
