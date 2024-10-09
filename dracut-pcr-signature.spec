@@ -23,8 +23,8 @@ Summary:        Dracut module to import PCR signatures
 License:        GPL-2.0-or-later
 URL:            https://github.com/aplanas/dracut-pcr-signature
 Source:         %{name}-%{version}.tar.xz
-BuildRequires:  rpm-config-SUSE
 BuildRequires:  pkgconfig(dracut)
+BuildRequires:  rpm-config-SUSE
 BuildArch:      noarch
 
 %description
@@ -42,7 +42,7 @@ unlock the LUKS2 device via systemd-cryptsetup.
 mkdir -p %buildroot/usr/lib/dracut/modules.d/50pcr-signature
 cp module-setup.sh %buildroot/usr/lib/dracut/modules.d/50pcr-signature
 cp pcr-signature.sh %buildroot/usr/lib/dracut/modules.d/50pcr-signature
-cp pcr-signature.conf %buildroot/usr/lib/dracut/modules.d/50pcr-signature
+cp pcr-signature-generator.sh %buildroot/usr/lib/dracut/modules.d/50pcr-signature
 
 %post
 %{?regenerate_initrd_post}
