@@ -1,0 +1,16 @@
+[Unit]
+Description=Import TPM2 crendentials into the initrd
+DefaultDependencies=false
+
+Wants=cryptsetup-pre.target
+Before=cryptsetup-pre.target
+
+RequiresMountsFor=/boot/efi
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/usr/bin/pcr-signature.sh
+
+[Install]
+WantedBy=cryptsetup.target
