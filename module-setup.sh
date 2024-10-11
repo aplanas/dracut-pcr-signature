@@ -17,13 +17,14 @@ installkernel() {
 }
 
 install() {
-    inst_script "${moddir}/pcr-signature.sh" /usr/bin/pcr-signature.sh
+    inst_script "$moddir/pcr-signature.sh" /usr/bin/pcr-signature.sh
     # There is a cryptsetup-pre.target that can be used, but is not
     # easy execute the service when the ESP device is ready and the
     # systemd-cryptsetup service was still not executed
-    # (cryptsetup.target).  One solution is to use a generator, that
+    # (cryptsetup.target).  The solution is to use a generator, that
     # will after/requires from dev-disk-by-partuuid-XXX, where XXX
-    # comes from LoaderDevicePartUUID efivar.  The other option is an
-    # override (this one).
-    inst_simple "${moddir}/pcr-signature.conf" "/etc/systemd/system/systemd-cryptsetup@.service.d/pcr-signature.conf"
+    # comes from LoaderDevicePartUUID efivar.
+    inst_script "$moddir/boot-efi-generator.sh" /usr/lib/systemd/system-generators/boot-efi-generator
+    inst_simple "$moddir/pcr-signature.service" "$systemdsystemunitdir/pcr-signature.service"
+    $SYSTEMCTL -q --root "$initdir" enable pcr-signature.service
 }
