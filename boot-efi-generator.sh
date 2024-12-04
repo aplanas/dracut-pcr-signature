@@ -21,6 +21,7 @@ cat > "$1/boot-efi.mount" <<EOF
 Description=Mount /boot/efi
 Conflicts=initrd-switch-root.target
 Before=initrd-switch-root.target
+DefaultDependencies=false
 
 [Mount]
 What=$DEV
