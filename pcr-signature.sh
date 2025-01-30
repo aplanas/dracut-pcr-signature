@@ -18,3 +18,13 @@ for location in "/boot/efi/EFI/systemd" "/boot/efi/EFI/opensuse"; do
 	break
     fi
 done
+
+for location in "/boot/efi/EFI/systemd" "/boot/efi/EFI/opensuse"; do
+    if [ -e "${location}/measure-pcr-prediction" ]; then
+	# This directory should be already present, and contain the
+	# public key
+	mkdir -p /var/lib/sdbootutil
+	cp "${location}/measure-pcr-prediction" /var/lib/sdbootutil
+	[ -e "${location}/measure-pcr-prediction.sha256" ] && cp "${location}/measure-pcr-prediction.sha256" /var/lib/sdbootutil
+    fi
+done
