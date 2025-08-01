@@ -6,17 +6,13 @@ check() {
     return 0
 }
 
-depends() {
-    return 0
-}
-
 installkernel() {
-    inst_multiple mountpoint rmdir dd tr mktemp
     # Filesystem (vfat) and codepages required to mount the ESP
     hostonly="" instmods vfat nls_cp437 nls_iso8859-1 nls_utf8
 }
 
 install() {
+    inst_multiple mountpoint rmdir dd tr mktemp
     inst_script "$moddir/pcr-signature.sh" /usr/bin/pcr-signature.sh
     # There is a cryptsetup-pre.target that can be used, but is not
     # easy execute the service when the ESP device is ready and the
