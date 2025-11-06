@@ -3,6 +3,12 @@
 # Prerequisite check(s) for module.
 check() {
     # Return 255 to only include the module, if another module requires it.
+    if [ -n "$hostonly" ]; then
+        if ! [ -d /sys/class/tpmrm ] || [ -z "$(ls -A /sys/class/tpmrm)" ]; then
+            return 255
+        fi
+    fi
+
     return 0
 }
 
