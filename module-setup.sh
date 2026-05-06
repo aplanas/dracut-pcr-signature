@@ -26,7 +26,7 @@ install() {
     # (cryptsetup.target).  The solution is to use a generator, that
     # will after/requires from dev-disk-by-partuuid-XXX, where XXX
     # comes from LoaderDevicePartUUID efivar.
-    inst_script "$moddir/boot-efi-generator.sh" /usr/lib/systemd/system-generators/boot-efi-generator
+    inst_script "$moddir/sysefi-generator.sh" /usr/lib/systemd/system-generators/sysefi-generator
     inst_simple "$moddir/pcr-signature.service" "$systemdsystemunitdir/pcr-signature.service"
     $SYSTEMCTL -q --root "$initdir" enable pcr-signature.service
 }

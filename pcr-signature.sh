@@ -13,7 +13,7 @@ fi
 name="${NAME% *}"
 name="${name,,}"
 
-for location in "/boot/efi/EFI/systemd" "/boot/efi/EFI/$name"; do
+for location in "/sysefi/EFI/systemd" "/sysefi/EFI/$name"; do
     if [ -e "${location}/pcrlock.json" ]; then
 	mkdir -p /run/systemd
 	cp "${location}/pcrlock.json" /run/systemd
@@ -26,9 +26,9 @@ for location in "/boot/efi/EFI/systemd" "/boot/efi/EFI/$name"; do
     fi
 done
 
-for location in "/boot/efi/EFI/systemd" "/boot/efi/EFI/$name"; do
+for location in "/sysefi/EFI/systemd" "/sysefi/EFI/$name"; do
     if [ -e "${location}/measure-pcr-prediction" ]; then
-	# This directory should be already present, and contain the
+	# This directory should be already present, and contains the
 	# public key
 	mkdir -p /var/lib/sdbootutil
 	cp "${location}/measure-pcr-prediction" /var/lib/sdbootutil

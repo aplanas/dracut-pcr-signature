@@ -5,7 +5,8 @@ DefaultDependencies=false
 Wants=cryptsetup-pre.target
 Before=cryptsetup-pre.target
 
-RequiresMountsFor=/boot/efi
+Wants=sysefi.mount
+After=sysefi.mount
 
 [Service]
 Type=oneshot

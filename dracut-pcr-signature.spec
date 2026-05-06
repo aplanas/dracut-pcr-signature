@@ -41,7 +41,7 @@ unlock the LUKS2 device via systemd-cryptsetup.
 
 %install
 mkdir -p %{buildroot}%{_prefix}/lib/dracut/modules.d/50pcr-signature
-for i in module-setup.sh boot-efi-generator.sh pcr-signature.sh pcr-signature.service; do
+for i in module-setup.sh sysefi-generator.sh pcr-signature.sh pcr-signature.service; do
     cp "$i" %{buildroot}%{_prefix}/lib/dracut/modules.d/50pcr-signature
 done
 
