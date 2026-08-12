@@ -5,8 +5,11 @@ DefaultDependencies=false
 Wants=cryptsetup-pre.target
 Before=cryptsetup-pre.target
 
-Wants=sysefi.mount
-After=sysefi.mount
+# The ordering against sysefi.mount is not declared here, but in a
+# drop-in written by sysefi-generator, and only when that generator is
+# the one providing the mount unit.  Pulling in the sysefi.mount that
+# systemd's gpt-auto-generator provides creates an ordering cycle with
+# cryptsetup-pre.target.
 
 [Service]
 Type=oneshot
