@@ -7,6 +7,21 @@ check() {
         if ! [ -d /sys/class/tpmrm ] || [ -z "$(ls -A /sys/class/tpmrm)" ]; then
             return 255
         fi
+
+        # Only a BLS boot loader (systemd-boot or grub2-bls) drops the
+        # pcrlock.json in the ESP, so the module is useless when the
+        # system boots with a different one, like the classic grub2-efi.
+        # The package can still be installed there, as sdbootutil
+        # requires it, but the module is not added to the initrd.
+        if [ -e /etc/sysconfig/bootloader ]; then
+            local loader_type
+            # shellcheck disable=SC1091
+            loader_type="$(. /etc/sysconfig/bootloader &> /dev/null; echo "$LOADER_TYPE")"
+            case "$loader_type" in
+                systemd-boot | grub2-bls | "") ;;
+                *) return 255 ;;
+            esac
+        fi
     fi
 
     return 0
